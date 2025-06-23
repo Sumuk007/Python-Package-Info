@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Package Info</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Python Package Info</h1>
+        <form method="post" action="/search">
+            <input type="text" name="package_name" placeholder="Enter package name..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if info %}
+        <div class="result">
+            <h2>{{ info.name }} (v{{ info.version }})</h2>
+            <p><strong>Summary:</strong> {{ info.summary }}</p>
+            <p><strong>Author:</strong> {{ info.author }}</p>
+            <p><strong>Requires Python:</strong> {{ info.python }}</p>
+            <p class="license"><strong>License:</strong> {{ info.license }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
