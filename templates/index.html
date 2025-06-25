@@ -6,6 +6,22 @@
 </head>
 <body>
     <div class="container">
+        {% if history %}
+    <div class="history">
+        <h3>Recent Searches</h3>
+        <div class="history-tags">
+            {% for item in history %}
+                <form method="post" action="/search" style="display:inline;">
+                    <input type="hidden" name="package_name" value="{{ item }}">
+                    <button class="tag-button" type="submit">{{ item }}</button>
+                </form>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+    </div>
+    <div class="container">
         <h1>Python Package Info</h1>
         <form method="post" action="/search">
             <input type="text" name="package_name" placeholder="Enter package name..." required>
@@ -17,14 +33,34 @@
         {% endif %}
 
         {% if info %}
-        <div class="result">
-            <h2>{{ info.name }} (v{{ info.version }})</h2>
-            <p><strong>Summary:</strong> {{ info.summary }}</p>
-            <p><strong>Author:</strong> {{ info.author }}</p>
-            <p><strong>Requires Python:</strong> {{ info.python }}</p>
-            <p class="license"><strong>License:</strong> {{ info.license }}</p>
-        </div>
+    <div class="result">
+        <h2>{{ info.name }} (v{{ info.version }})</h2>
+        <p><strong>Summary:</strong> {{ info.summary }}</p>
+        <p><strong>Author:</strong> {{ info.author }}</p>
+        <p><a href="{{ info.url }}" target="_blank">Visit Project Page</a></p>
+        <p><strong>Last Updated:</strong> {{ info.last_updated }}</p>
+
+        {% if info.requires %}
+            <p><strong>Dependencies:</strong></p>
+            <ul>
+                {% for dep in info.requires %}
+                    <li>{{ dep }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><em>No dependencies listed.</em></p>
         {% endif %}
+
+        <p><strong>Available Versions:</strong></p>
+        <div class="versions">
+            {% for ver in info.versions %}
+                <span class="version-tag">{{ ver }}</span>
+            {% endfor %}
+        </div>
     </div>
+{% endif %}
+
+    </div>
+
 </body>
 </html>
