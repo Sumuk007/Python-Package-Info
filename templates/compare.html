@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Compare Packages</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .box {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Compare Python Packages</h1>
+    <div style="margin-top: 20px;">
+      <a href="/" class="tag-button">⬅ Back to Home</a>
+    </div>
+    <form method="post" action="/compare">
+      <input type="text" name="package1" placeholder="First package" required />
+      <input type="text" name="package2" placeholder="Second package" required />
+      <button type="submit">Compare</button>
+    </form>
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if info1 and info2 %}
+    <div class="compare-grid">
+      <div class="box">
+        <h2>{{ info1.name }} (v{{ info1.version }})</h2>
+        <p><strong>Author:</strong> {{ info1.author }}</p>
+        <p><strong>Summary:</strong> {{ info1.summary }}</p>
+        <p><strong>Last Updated:</strong> {{ info1.last_updated }}</p>
+        <p><strong>Dependencies:</strong></p>
+        {% if info1.requires %}
+        <ul>
+          {% for dep in info1.requires %}
+          <li>{{ dep }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p><em>No dependencies</em></p>
+        {% endif %}
+      </div>
+
+      <div class="box">
+        <h2>{{ info2.name }} (v{{ info2.version }})</h2>
+        <p><strong>Author:</strong> {{ info2.author }}</p>
+        <p><strong>Summary:</strong> {{ info2.summary }}</p>
+        <p><strong>Last Updated:</strong> {{ info2.last_updated }}</p>
+        <p><strong>Dependencies:</strong></p>
+        {% if info2.requires %}
+        <ul>
+          {% for dep in info2.requires %}
+          <li>{{ dep }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p><em>No dependencies</em></p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

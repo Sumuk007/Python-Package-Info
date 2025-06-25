@@ -24,7 +24,7 @@ input[type="text"] {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-
+    margin-top: 15px;
 }
 
 button {
@@ -86,6 +86,7 @@ p strong{
 
 .tag-button {
     background-color: #e0e0e0;
+    text-decoration: none;
     color: #000;
     border: none;
     border-radius: 20px;
@@ -99,3 +100,16 @@ p strong{
     background-color: #4caf50;
 }
 
+.compare{
+    background-color: white;
+    text-decoration: none;
+    color: black;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 35px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.compare:hover {
+    background-color: #4caf50;
+}
