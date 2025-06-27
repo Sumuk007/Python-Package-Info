@@ -1,10 +1,20 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
+from starlette.status import HTTP_302_FOUND
 import httpx
 import asyncio
+
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine
+from models import Base, User
+from auth_utils import hash_password, verify_password
+
+print("📦 Creating tables...")
+Base.metadata.create_all(bind=engine)
+print("✅ Tables should now exist.")
 
 app = FastAPI()
 
@@ -16,8 +26,23 @@ MAX_HISTORY = 5
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
+    return templates.TemplateResponse("signup.html", {
+        "request": request,
+        "history": search_history
+    })
+
+@app.get("/home", response_class=HTMLResponse)
+async def home_page(request: Request):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "history": search_history
@@ -145,4 +170,55 @@ async def compare_packages(request: Request, package1: str = Form(...), package2
         "request": request,
         "info1": info1,
         "info2": info2,
+    })
+
+
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup_form(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
+
+
+@app.post("/signup", response_class=HTMLResponse)
+async def signup(
+    request: Request,
+    username: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    existing_user = db.query(User).filter(User.username == username).first()
+    if existing_user:
+        return templates.TemplateResponse("signup.html", {
+            "request": request,
+            "error": "Username already exists"
+        })
+    hashed = hash_password(password)
+    user = User(username=username, email=email, hashed_password=hashed)
+    db.add(user)
+    db.commit()
+    return RedirectResponse("/login", status_code=HTTP_302_FOUND)
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_form(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.post("/login", response_class=HTMLResponse)
+async def login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.username == username).first()
+    if not user or not verify_password(password, user.hashed_password):
+        return templates.TemplateResponse("login.html", {
+            "request": request,
+            "error": "Invalid credentials"
+        })
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "username": user.username
     })

@@ -19,12 +19,13 @@ body {
 }
 
 input[type="text"] {
-    width: 80%;
+     width: 80%;
     padding: 10px;
-    font-size: 16px;
+    font-size: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: 15px;
+    background-color: #333;
+    color: white;
 }
 
 button {
@@ -34,6 +35,7 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 35px;
 }
 
 button:hover {
@@ -113,3 +115,16 @@ p strong{
 .compare:hover {
     background-color: #4caf50;
 }
+
+.compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .box {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }

@@ -2,27 +2,22 @@
 <html>
 <head>
   <title>Compare Packages</title>
-  <link rel="stylesheet" href="/static/style.css" />
   <style>
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      margin-top: 30px;
-    }
-    .box {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #333;
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
   </style>
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
   <div class="container">
     <h1>📦 Compare Python Packages</h1>
     <div style="margin-top: 20px;">
-      <a href="/" class="tag-button">⬅ Back to Home</a>
+      <a href="/home" class="tag-button">⬅ Back to Home</a>
     </div>
     <form method="post" action="/compare">
       <input type="text" name="package1" placeholder="First package" required />

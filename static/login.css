@@ -1,0 +1,83 @@
+/* General Page Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: black; /* You can change this */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Login Form Container */
+.container {
+    background-color: #232323;
+    padding: 40px 30px;
+    border-radius: 10px;
+    width: 40%;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+/* Input Sections */
+.usernane_container,
+.password_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 60%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* Change this if needed */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Error Message */
+.error {
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+}
+
+/* Switch Link */
+.switch {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.switch:hover {
+    text-decoration: underline;
+}
